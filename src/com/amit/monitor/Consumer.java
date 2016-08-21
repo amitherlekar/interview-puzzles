@@ -19,15 +19,17 @@ public class Consumer implements Runnable {
 					System.out.println(Thread.currentThread().getName()
 							+ " is waiting...");
 					resource.wait();
+
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 
 			}
 			resource.remove(item);
-			resource.notify();
 			System.out.println(Thread.currentThread().getName()
 					+ " has consumed item: " + item);
+			resource.notify();
+
 		}
 
 	}

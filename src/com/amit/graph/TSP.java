@@ -40,7 +40,7 @@ public class TSP {
 		int to = 0;
 		for (int i = 0; i < adjacencyMatrix.length; i++) {
 			if (adjacencyMatrix[element][i] > 0 && !visited[i]) {
-				if (min > adjacencyMatrix[element][i]) {
+				if (adjacencyMatrix[element][i] < min) {
 					min = adjacencyMatrix[element][i];
 					to = i;
 				}

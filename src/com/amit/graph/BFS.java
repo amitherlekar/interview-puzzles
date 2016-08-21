@@ -20,7 +20,7 @@ public class BFS {
 		Queue<Integer> q = new PriorityQueue<Integer>();
 		q.add(0);
 		visited[0] = true;
-		System.out.print(0 + ", ");
+		System.out.print(0 + " --> ");
 
 		while (!q.isEmpty()) {
 			int node = q.peek();
@@ -29,7 +29,7 @@ public class BFS {
 			if (child > 0) {
 				visited[child] = true;
 				q.add(child);
-				System.out.print(child + ", ");
+				System.out.print(child + "--> ");
 			} else {
 				q.remove();
 			}
@@ -48,12 +48,8 @@ public class BFS {
 	}
 
 	public static void main(String[] args) {
-		int[][] a = new int[][] { 
-				{ 0, 1, 1, 1, 0 }, 
-				{ 1, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0 }, 
-				{ 1, 0, 0, 0, 1 }, 
-				{ 0, 1, 0, 1, 0 } };
+		int[][] a = new int[][] { { 0, 1, 1, 1, 0 }, { 1, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0 }, { 1, 0, 0, 0, 1 }, { 0, 1, 0, 1, 0 } };
 
 		int[][] b = new int[][] { { 0, 1, 0, 1, 0 }, { 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } };

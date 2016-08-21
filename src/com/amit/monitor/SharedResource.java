@@ -11,6 +11,7 @@ public class SharedResource {
 	public SharedResource(int maxSize) {
 		super();
 		this.maxSize = maxSize;
+		System.out.println("Max size = " + maxSize);
 		list = new ArrayList<String>();
 	}
 
@@ -27,6 +28,7 @@ public class SharedResource {
 	}
 
 	public int size() {
+		System.out.println("Current size = " + this.list.size());
 		return this.list.size();
 	}
 
