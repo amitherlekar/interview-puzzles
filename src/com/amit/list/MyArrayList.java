@@ -31,9 +31,9 @@ public class MyArrayList<T> {
 
 	public void remove(int index) {
 		if (index < size) {
-			int temp = index + 1;
-			while (temp < size) {
-				array[temp - 1] = array[temp];
+			int temp = index;
+			while (temp + 1 < size) {
+				array[temp] = array[temp + 1];
 				temp++;
 			}
 			size--;
@@ -67,6 +67,7 @@ public class MyArrayList<T> {
 		MyArrayList<String> list = new MyArrayList<String>();
 		list.add("amit");
 		list.add(" ");
+		System.out.println(list);
 		list.remove(0);
 		list.remove(0);
 		list.add("amit");

@@ -57,7 +57,7 @@ public class MergeSort {
 
 	public static void main(String[] args) {
 		MergeSort m = new MergeSort();
-		int[] a = new int[] { 103, 111, 99, 8, 44, 7, 6, 9, 11, 10 };
+		int[] a = new int[] { 103, 111, 99 };
 		m.sortArray(a);
 		for (int x : a) {
 			System.out.print(x + ",");
