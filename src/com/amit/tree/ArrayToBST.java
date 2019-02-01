@@ -1,5 +1,8 @@
 package com.amit.tree;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 //Definition for binary tree
 class TreeNode {
 	int val;
@@ -14,11 +17,13 @@ class TreeNode {
 public class ArrayToBST {
 
 	public int getHeight(TreeNode head) {
-		if (head == null) {
+		if (head == null)
 			return 0;
-		}
 
-		return (getHeight(head.left) + getHeight(head.right)) + 1;
+		int leftHeight = getHeight(head.left);
+		int rightHeight = getHeight(head.right);
+
+		return Math.max(leftHeight, rightHeight) + 1;
 	}
 
 	public boolean isBalanced(TreeNode head) {
@@ -162,17 +167,68 @@ public class ArrayToBST {
 			return 0;
 		}
 
-		if (root.left != null) {
-			return 1;
-		}
-		if (root.right != null) {
-			return 1;
-		}
-		levelLeft += depthOfTree(root.left);
-		levelRight += depthOfTree(root.right);
-		depth = Math.max(levelLeft, levelRight);
+		levelLeft = depthOfTree(root.left);
+		levelRight = depthOfTree(root.right);
+		depth = Math.max(levelLeft, levelRight) + 1;
 
 		return depth;
+	}
+
+	static boolean isBST(TreeNode root) {
+		return isBSTUtil(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	/*
+	 * Returns true if the given tree is a BST and its values are >= min and <= max.
+	 */
+	static boolean isBSTUtil(TreeNode node, int min, int max) {
+		/* an empty tree is BST */
+		if (node == null)
+			return true;
+
+		/* false if this node violates the min/max constraints */
+		if (node.val < min || node.val > max)
+			return false;
+
+		/*
+		 * otherwise check the subtrees recursively tightening the min/max constraints
+		 */
+		// Allow only distinct values
+		return (isBSTUtil(node.left, min, node.val - 1) && isBSTUtil(node.right, node.val + 1, max));
+	}
+
+	/**
+	 * Method to iteratively traverse the tree in the preorder manner. Mark a node
+	 * as visited by adding its data to a list - Arraylist <Integer> preorderedList.
+	 * Return this list.
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public ArrayList<Integer> preorderItr(TreeNode root) {
+
+		ArrayList<Integer> list = new ArrayList<>();
+		Stack<TreeNode> stack = new Stack<>();
+
+		if (root == null) {
+			return list;
+		}
+		TreeNode p = null;
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			p = stack.pop();
+			list.add(p.val);
+			if (p.right != null) {
+				stack.push(p.right);
+			}
+
+			if (p.left != null) {
+				stack.push(p.left);
+			}
+		}
+		return list;
+
 	}
 
 	public static void main(String[] args) {
@@ -191,7 +247,7 @@ public class ArrayToBST {
 		System.out.println("Number of leaf nodes in the tree is: " + bst.countNumberOfLeafNodes(t1));
 		System.out.println("Is T1 is a strictly binary tree?: " + bst.isStrictlyBinaryTree(t1));
 
-		System.out.println("The depth of tree T1 is: " + bst.depthOfTree(t1));
+		System.out.println("The depth of tree T1 is: " + (bst.depthOfTree(t1) - 1));
 		// bst.compareTrees(t1, t2);
 	}
 }
