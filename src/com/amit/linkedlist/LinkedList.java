@@ -31,10 +31,10 @@ public class LinkedList {
 	}
 
 	/*
-	 * Given pointers to the head nodes of linked lists that merge together at
-	 * some point, find the Node where the two lists merge. It is guaranteed
-	 * that the two head Nodes will be different, and neither will be NULL. In
-	 * the diagram below, the two lists converge at Node x:
+	 * Given pointers to the head nodes of linked lists that merge together at some
+	 * point, find the Node where the two lists merge. It is guaranteed that the two
+	 * head Nodes will be different, and neither will be NULL. In the diagram below,
+	 * the two lists converge at Node x:
 	 * 
 	 * [List #1]: a--->b--->c \ x--->y--->z--->NULL / [List #2]: p--->q
 	 */
@@ -81,29 +81,71 @@ public class LinkedList {
 
 	public Node removeDuplicates(Node head) {
 
-		Set<String> set = new HashSet<String>();
+		if (head == null)
+			return null;
 
-		Node t = head;
-		Node p = head;
+		Set<String> set = new HashSet<>();
+		set.add(head.data);
+
+		Node p = head.next;
+		Node q = head;
 
 		while (p != null) {
 
-			if (set.contains(p.getData())) {
-				if (head == t) {
-					head = head.getNext();
-					t = head;
-				} else {
-					t.setNext(p.getNext());
-				}
-			} else {
-				set.add(p.getData());
-				t = p;
+			if (!set.add(p.data)) {
+				q.next = p.next;
 			}
-			p = p.getNext();
+			q = p;
+			p = p.next;
 		}
 
 		return head;
 
+	}
+
+	public Boolean isListPalindrome(Node head) {
+		if (head == null || head.next == null)
+			return true;
+
+		// Go to the middle node
+		int mid = 0, count = 0, length = 0;
+		Node current = head, midNode = null;
+		while (current != null) {
+			current = current.next;
+			length++;
+		}
+		mid = length / 2;
+		current = head;
+		while (current != null) {
+			if (count == mid)
+				break;
+			current = current.next;
+			count++;
+		}
+		midNode = current;
+
+		// Reverse
+		Node p1 = midNode;
+		Node p2 = p1.next;
+		while (p1 != null && p2 != null) {
+			Node temp = p2.next;
+			p2.next = p1;
+			p1 = p2;
+			p2 = temp;
+		}
+		midNode.next = null;
+
+		// Compare
+		Node cur = (p2 == null ? p1 : p2);
+		Node com = head;
+		while (cur != null) {
+			if (cur.data != com.data)
+				return false;
+			cur = cur.next;
+			com = com.next;
+		}
+
+		return true;
 	}
 
 	/**
@@ -163,8 +205,8 @@ public class LinkedList {
 	}
 
 	/**
-	 * Compare two linked lists A and B Return 1 if they are identical and 0 if
-	 * they are not.
+	 * Compare two linked lists A and B Return 1 if they are identical and 0 if they
+	 * are not.
 	 */
 	public int compareLists(Node headA, Node headB) {
 		if (headA == null && headB == null) {
@@ -251,9 +293,8 @@ public class LinkedList {
 		}
 
 		/*
-		 * Move slow to Head. Keep fast at Meeting Point. Each are k steps /*
-		 * from the Loop Start. If they move at the same pace, they must meet at
-		 * Loop Start.
+		 * Move slow to Head. Keep fast at Meeting Point. Each are k steps /* from the
+		 * Loop Start. If they move at the same pace, they must meet at Loop Start.
 		 */
 		slow = head;
 		while (slow != fast) {

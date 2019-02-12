@@ -1,5 +1,7 @@
 package com.amit.string;
 
+import java.util.ArrayList;
+
 public class Matrix {
 
 	public static void setZero(int[][] a) {
@@ -46,10 +48,37 @@ public class Matrix {
 		}
 	}
 
-	public static void swap(int a, int b) {
-		int temp = a;
-		a = b;
-		b = temp;
+	// Clockwise spiral
+	public static ArrayList<Integer> findSpiral(int[][] arr) {
+		ArrayList<Integer> spiralOrder = new ArrayList<Integer>();
+		if (arr == null || arr.length == 0)
+			return spiralOrder;
+		int m = arr.length, n = arr[0].length;
+		int x = 0, y = 0;
+		while (m > 0 && n > 0) {
+			if (m == 1) {
+				for (int i = 0; i < n; i++)
+					spiralOrder.add(arr[x][y++]);
+				break;
+			} else if (n == 1) {
+				for (int i = 0; i < m; i++)
+					spiralOrder.add(arr[x++][y]);
+				break;
+			}
+			for (int i = 0; i < n - 1; i++)
+				spiralOrder.add(arr[x][y++]);
+			for (int j = 0; j < m - 1; j++)
+				spiralOrder.add(arr[x++][y]);
+			for (int i = 0; i < n - 1; i++)
+				spiralOrder.add(arr[x][y--]);
+			for (int j = 0; j < m - 1; j++)
+				spiralOrder.add(arr[x--][y]);
+			x++;
+			y++;
+			m = m - 2;
+			n = n - 2;
+		}
+		return spiralOrder;
 	}
 
 	public static void main(String[] args) {

@@ -1,8 +1,8 @@
 package com.amit.linkedlist;
 
 public class Node {
-	private String data;
-	private Node next;
+	String data;
+	Node next;
 
 	public String getData() {
 		return data;
