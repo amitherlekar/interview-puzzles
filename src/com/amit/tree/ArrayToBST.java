@@ -110,6 +110,36 @@ public class ArrayToBST {
 
 	}
 
+	public TreeNode delete(TreeNode root, int data) {
+		if (root == null) {
+			return null;
+		} else if (data < root.val) {
+			root.left = delete(root.left, data);
+		} else if (data > root.val) {
+			root.right = delete(root.right, data);
+		} else { // element found
+			if (root.left != null && root.right != null) { // full node case
+				root.val = findMin(root.right).val;
+				root.right = delete(root.right, root.val);
+			} else if (root.left == null && root.right == null) {
+				root = null;
+			} else if (root.left == null) {
+				root = root.right;
+			} else if (root.right == null) {
+				root = root.left;
+			}
+		}
+		return root;
+	}
+
+	public TreeNode findMin(TreeNode root) {
+		if (root == null)
+			return null;
+		if (root.left == null)
+			return root;
+		return findMin(root.left);
+	}
+
 	/**
 	 * Validate BST iteratively
 	 * 
@@ -240,6 +270,21 @@ public class ArrayToBST {
 			return false;
 
 		return (root1.val == root2.val && isIdentical(root1.left, root2.left) && isIdentical(root1.right, root2.right));
+
+	}
+
+	public boolean isMirror(TreeNode root1, TreeNode root2) {
+
+		if (root1 == null && root2 == null)
+			return true;
+
+		if (root1 == null || root2 == null)
+			return false;
+
+		if (root1.val != root2.val)
+			return false;
+
+		return isMirror(root1.left, root2.right) && isMirror(root1.right, root2.left);
 
 	}
 

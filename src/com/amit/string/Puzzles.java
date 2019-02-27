@@ -3,6 +3,7 @@ package com.amit.string;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class Puzzles {
 
@@ -63,6 +64,38 @@ public class Puzzles {
 		}
 
 		return largestsum;
+	}
+
+	public static int[] maxContSequence(int[] arr) {
+		int curr_starting_index = 0, curr_ending_index = 0, curr_sum = 0;
+		int max_starting_index = 0, max_ending_index = -1, max_sum = 0;
+
+		if (arr.length > 0) {
+			curr_sum = arr[0];
+			max_sum = arr[0];
+			max_ending_index = 0;
+		}
+		for (int i = 1; i < arr.length; i++) {
+			int sum = arr[i] + curr_sum;
+			// If the maximum sum plus the current item is less than the item
+			// Then we should set maximum sum to be the current item
+			if (arr[i] > sum) {
+				curr_starting_index = i;
+				curr_ending_index = i;
+				curr_sum = arr[i];
+			} else { // Otherwise, include the current item into our subsequence
+				curr_ending_index++;
+				curr_sum += arr[i];
+			}
+			// If the sum of our subsequence is greater than global max so far
+			if (curr_sum > max_sum) {
+				max_sum = curr_sum; // Update the global max subsequence
+				max_starting_index = curr_starting_index;
+				max_ending_index = curr_ending_index;
+			}
+		}
+		int[] result = { max_sum, max_starting_index, max_ending_index };
+		return result;
 	}
 
 	public static String compress(String org) {
@@ -355,6 +388,69 @@ public class Puzzles {
 		return;
 	}
 
+	public static int longestNonRSubstringLen(String input) {
+		if (input == null)
+			return 0;
+		char[] array = input.toCharArray();
+		int prev = 0;
+
+		HashMap<Character, Integer> characterMap = new HashMap<Character, Integer>();
+
+		for (int i = 0; i < array.length; i++) {
+			if (!characterMap.containsKey(array[i])) {
+				characterMap.put(array[i], i);
+			} else {
+				prev = Math.max(prev, characterMap.size());
+				i = characterMap.get(array[i]);
+				characterMap.clear();
+			}
+		}
+		return Math.max(prev, characterMap.size());
+	}
+
+	// java.util.* and java.util.streams.* have been imported for this problem.
+	// You don't need any other imports.
+
+	public static boolean isBalanced(String in) {
+
+		Stack<Character> s = new Stack<>();
+		for (int i = 0; i < in.length(); i++) {
+			char c = in.charAt(i);
+
+			switch (c) {
+			case '(':
+			case '{':
+			case '[':
+				s.push(c);
+				break;
+			case '}':
+				if (s.isEmpty())
+					return false;
+				if (s.pop() != '{')
+					return false;
+				break;
+			case ']':
+				if (s.isEmpty())
+					return false;
+				if (s.pop() != '[')
+					return false;
+				break;
+			case ')':
+				if (s.isEmpty())
+					return false;
+				if (s.pop() != '(')
+					return false;
+				break;
+			}
+		}
+
+		if (s.isEmpty())
+			return false;
+
+		return true;
+
+	}
+
 	public static void main(String[] args) {
 		// char[] chars = new char[] { 'a', 'm', 'i', 't', ' ', 'h', ' ', ' ',
 		// ' ' };
@@ -367,10 +463,12 @@ public class Puzzles {
 		// System.out.println(15 >> 1);
 		// System.out.println(removeExtraSpaces(" I am Amit Herlekar "));
 
-		int[] res = coupleSum(new int[] { 2, 3, 4, 7 }, 7);
-		for (int i : res) {
-			System.out.println(i + ", ");
-		}
+		/*
+		 * int[] res = coupleSum(new int[] { 2, 3, 4, 7 }, 7); for (int i : res) {
+		 * System.out.println(i + ", "); }
+		 */
+
+		System.out.println(longestNonRSubstringLen("aabbabc"));
 
 	}
 }

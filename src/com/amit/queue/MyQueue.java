@@ -21,13 +21,17 @@ public class MyQueue {
 	}
 
 	public int pop() {
+		int x = -1;
 		if (f > r) {
 			System.out.println("Q is empty");
 		} else {
-			return array[f++];
+			x = array[0];
+			for (int i = 0; i < r; i++) {
+				array[i] = array[i + 1];
+			}
+			r--;
 		}
-
-		return -1;
+		return x;
 	}
 
 	public void show() {
